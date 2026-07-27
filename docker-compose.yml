@@ -1,0 +1,52 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: agentic_clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB:-analytics}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-admin}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-admin}
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./sql:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    networks:
+      - agentic_network
+
+  superset:
+    image: apache/superset:latest
+    container_name: agentic_superset
+    ports:
+      - "8088:8088"
+    environment:
+      - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
+      - PYTHONPATH=/usr/local/lib/python3.10/site-packages
+    volumes:
+      - superset_data:/app/superset_home
+      - ./superset_config.py:/app/pythonpath/superset_config.py
+      - ./docker/requirements-local.txt:/app/docker/requirements-local.txt
+    command: >
+      sh -c "
+        . /app/.venv/bin/activate &&
+        pip install -r /app/docker/requirements-local.txt &&
+        superset db upgrade &&
+        superset init &&
+        superset fab create-admin --username admin --firstname Admin --lastname User --email admin@admin.com --password admin &&
+        superset run -p 8088 --host=0.0.0.0 --with-threads --reload
+      "
+    restart: unless-stopped
+    depends_on:
+      - clickhouse
+    networks:
+      - agentic_network
+
+volumes:
+  clickhouse_data:
+  superset_data:
+
+networks:
+  agentic_network:
+    driver: bridge

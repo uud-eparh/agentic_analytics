@@ -1,0 +1,68 @@
+# Временные файлы и кэш
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.cache
+*.log
+
+# Виртуальное окружение
+.venv/
+venv/
+env/
+ENV/
+
+# Переменные окружения (содержат секреты)
+.env
+.env.local
+.env.*.local
+
+# Jupyter Notebooks (если будут)
+.ipynb_checkpoints/
+*.ipynb
+
+# Данные (можно исключить, если они большие)
+data/*.csv
+data/*.zip
+!data/.gitkeep
+
+# Скриншоты для документации (только если они большие)
+screenshots/*.png
+!screenshots/.gitkeep
+
+# Файлы IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Logs
+logs/
+*.log
+
+# Superset
+superset_home/
+
+# Ollama
+ollama_models/
+
+# Python
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Прочие
+*.tmp
+*.bak
