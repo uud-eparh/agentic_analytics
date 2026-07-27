@@ -260,10 +260,6 @@ Login: admin / Password: admin
 
 ### 📝 Автор
 
-[Ваше Имя] — [Ваш Email] — [Ссылка на LinkedIn]
-
-**Проект выполнен в рамках подготовки к позиции Data Engineer в X-Cart.**
-
 ---
 
 ### 📄 Лицензия
